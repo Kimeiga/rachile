@@ -81,7 +81,6 @@ export default class Home extends Component {
 
 					{/* get 20 images from archillect via js */}
 					{/* create 20 imageGridItems that each have the images and ids */}
-
 					{this.state.pics.map((element) => 
 						<ImageGridItem key={element.id} url={element.imageSource} id={element.id} />	
 					)}
