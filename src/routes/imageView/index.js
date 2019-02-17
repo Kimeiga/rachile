@@ -34,17 +34,21 @@ export default class ImageView extends Component {
 
 	render({id}, {result}) {
 
-        if(this.state.result == null)
+        if(this.state.result === null)
         {
-            return (<p>Loading!</p> );
+            return (
+                <p>Loading!</p>
+            );
         }
         else
         {
-            return (<div class={style.imageView}>
-            <h1>Image</h1>
-            <p>This is the Image Viewing Tab.</p>
-            <img src={result.imageSource}> </img> 
-            </div>);
+            return (
+            <div class={style.imageView}>
+                <h1>Image</h1>
+                <p>This is the Image Viewing Tab.</p>
+                <img src={result.imageSource}> </img> 
+            </div>
+            );
         }
 
 		// return (
