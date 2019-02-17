@@ -1,0 +1,15 @@
+.image_grid_item {
+    width: 25%;
+    /* height: calc(25vw + 2rem); */
+
+    display: inline-block;
+    
+
+}
+
+.image_grid_item img {
+    /* width: 25vw; */
+    width: 100%;
+    height: 25vw;
+    object-fit: cover;
+}
