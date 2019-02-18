@@ -31,6 +31,7 @@ export default class Profile extends Component {
 	render({ user }, { time, count }) {
 		return (
 			<div class={style.profile}>
+				<p>***</p>
 				<h1>Profile: {user}</h1>
 				<p>This is the user profile for a user named { user }.</p>
 
