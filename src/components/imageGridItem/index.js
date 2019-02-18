@@ -11,14 +11,14 @@ export default class ImageGridItem extends Component {
 	render({url, id}) {
         return (
 
-            <div class={style.image_grid_item}>
+            <a href={'./image/' + this.props.id} class={style.image_grid_item}>
             <img src={url}></img>
             
             <p>{id}</p>
             {/* <p>{url.toString()}</p> */}
     
     
-        </div>
+        </a>
         );
     }
 
