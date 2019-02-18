@@ -44,8 +44,8 @@ export default class ImageView extends Component {
         {
             return (
             <div class={style.imageView}>
-                <h1>Image</h1>
-                <p>This is the Image Viewing Tab.</p>
+                <h1>Image {result.id}</h1>
+                {/* <p>This is the Image Viewing Tab.</p> */}
                 <img src={result.imageSource}> </img> 
             </div>
             );

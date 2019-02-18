@@ -1,5 +1,11 @@
 .imageView {
 	padding: 56px 10px;
+	padding-top: 100px;
 	min-height: 100%;
+	width: 100%;
+	color: white;
+}
+
+.imageView img {
 	width: 100%;
 }
