@@ -34,11 +34,11 @@ export default class ImageView extends Component {
       
     fetchImage = () => {
         const TF_REST_API_URL = 'http://localhost:5000/predict';
-        const IMAGE_PATH = result.imageSource;
+        const IMAGE_PATH = this.state.result.imageSource;
         const types=['la_muse', 'rain_princess', 'scream', 'udnie', 'wave', 'wreck'];
         const MODEL_PATH = 'models/'+ types[getRandomInt(5)] +'.ckpt';
-        payload = {image : IMAGE_PATH, model: MODEL_PATH};
-        aaxios.post(TF_REST_API_URL, payload)
+        const payload = {image : IMAGE_PATH, model: MODEL_PATH};
+        axios.post(TF_REST_API_URL, payload)
           .then( (response) => {
             console.log(response.data);
             this.setState({ result : response.data });
@@ -66,7 +66,7 @@ export default class ImageView extends Component {
                 {/* <p>This is the Image Viewing Tab.</p> */}
                 <img src={result.imageSource}> </img> 
             </div>
-            <button onClick={fetchImage} class="myButton">Synthesize!</button>
+            <button onClick={() => this.fetchImage()} class="myButton">Synthesize!</button>
             </div>
             );
         }
