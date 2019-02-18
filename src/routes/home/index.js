@@ -7,66 +7,84 @@ import axios from 'axios';
 export default class Home extends Component {
 
 	state = {
-		pics: []
+		pics: [],
+		lastPic: null,
+		error: false,
+		hasMore: true,
+		isLoading: false
 	};
 
-	// getPostData(req)
-	// .then(body => {
-	// 	console.log(body);
-	// 	let options = {
-	// 		uri: query.url,
-	// 		headers: body.headers,
-	// 		method: body.method || 'GET
-	// 	};
+	constructor(props) {
+		super(props);
+		// Binds our scroll event handler
+		window.onscroll = () => {
+		  const {
+			loadImages,
+			state: {
+			  error,
+			  isLoading,
+			  hasMore,
+			  pics,
+			  lastPic
+			},
+		  } = this;
 
-	// 	let proxyCallback = (proxyErr, proxyRes, proxyBody) => {
-	// 		res.writeHead(proxyRes.statusCode, proxyRes.headers);
-	// 		res.write(proxyBody);
-	// 		res.end();
-	// };
-	// 	request(options, proxyCallback);
-	// })
+		  // Bails early if:
+      // * there's an error
+      // * it's already loading
+      // * there's nothing left to load
+      if (error || isLoading || !hasMore) return;
 
-	componentDidMount() {
+      // Checks that the page has scrolled to the bottom
+      if (
+		window.scrollY + window.innerHeight >= document.body.scrollHeight
+      ) {
+        loadImages();
+      }
+    };
+  }
 
-	// 	fetch images
-	// 	const proxyurl = "https://cors-escape.herokuapp.com/";
-	// 	const url = "https://archillect-api.now.sh/visuals"; // site that doesn’t send Access-Control-*
-	// 	fetch(proxyurl + url) // https://cors-anywhere.herokuapp.com/https://example.com
-	// 	.then(response => response.text())
-	// 	.then((data) => {
-	// 		console.log( JSON.parse(data) );
-	// 		this.setState({ pics: JSON.parse(data) });
-	// 	  })
-	// 	.catch(() => console.log("Can’t access " + url + " response. Blocked by browser?"))
-
-		// fetch('https://archillect-api.now.sh/visuals', {
-		// 	method: 'GET',
-		// 	headers: {
-		// 	  'Accept': 'application/json',
-		// 	  'Content-Type': 'application/json',
-		// 	  'Access-Control-Allow-Origin': 'http://localhost:8080',
-		// 	  'Access-Control-Allow-Credentials': 'true'
-
-		// 	},
-		//   })
-		//   .then((response) => {
-		// 	return response.text();
-		//   })
-		//   .then((data) => {
-		// 	console.log( JSON.parse(data) );
-		// 	this.setState({ pics: JSON.parse(data) });
-		//   })
+  loadImages = () =>  {
+	console.log ("Yoooooo!!");
+	console.log(this.state.lastPic);
+	var i;
+	for(i=0;i<48;i++)
+	{
+		console.log(this.state.lastPic);
 
 		axios({
 			method:'get',
-			url:'https://archillect-api.now.sh/visuals',
+			url:'https://archillect-api.now.sh/visuals/' + (this.state.lastPic - i).toString(),
 			responseType:'stream'
 		  })
 		.then( (response) => {
-		//   response.data.pipe(fs.createWriteStream('ada_lovelace.jpg'))
 			console.log(response.data);
-			this.setState({ pics: response.data });
+			this.setState((prevState) => { 
+				return { pics: [...prevState.pics, response.data] }
+			});
+		}).then(() => {
+			this.setState((prevState)=> {
+				return {lastPic: prevState.lastPic -1};
+			})
+		})
+	}
+
+	
+	
+  }
+	
+
+	componentDidMount() {
+
+
+		axios({
+			method:'get',
+			url:'https://archillect-api.now.sh/visuals?per=48',
+			responseType:'stream'
+		  })
+		.then( (response) => {
+			console.log(response.data);
+			this.setState({ pics: response.data , lastPic: response.data[response.data.length-1].id});
 		});
 
 	}
@@ -77,10 +95,6 @@ export default class Home extends Component {
 			<div class={style.home}>
 					<h1>Home</h1>
 					<p>This is the Home component.</p>
-
-
-					{/* get 20 images from archillect via js */}
-					{/* create 20 imageGridItems that each have the images and ids */}
 					{this.state.pics.map((element) => 
 						<ImageGridItem key={element.id} url={element.imageSource} id={element.id} />	
 					)}
