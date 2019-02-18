@@ -2,6 +2,7 @@ import { h, Component } from 'preact';
 import style from './style';
 import ImageGridItem from '../../components/imageGridItem';
 import axios from 'axios';
+import { getRandomInt } from '../../helpers';
 
 
 export default class ImageView extends Component {
@@ -11,9 +12,7 @@ export default class ImageView extends Component {
 	};
 
 	
-    initResult = () => {
-
-    }
+   
 	componentDidMount() {
         const _this = this;
 
@@ -29,7 +28,25 @@ export default class ImageView extends Component {
             this.setState({ result : response.data });
 		});
 
-	}
+    }
+    
+    
+      
+    fetchImage = () => {
+        const TF_REST_API_URL = 'http://localhost:5000/predict';
+        const IMAGE_PATH = result.imageSource;
+        const types=['la_muse', 'rain_princess', 'scream', 'udnie', 'wave', 'wreck'];
+        const MODEL_PATH = 'models/'+ types[getRandomInt(5)] +'.ckpt';
+        payload = {image : IMAGE_PATH, model: MODEL_PATH};
+        aaxios.post(TF_REST_API_URL, payload)
+          .then( (response) => {
+            console.log(response.data);
+            this.setState({ result : response.data });
+		})
+          .catch(function (error) {
+            console.log(error);
+          });
+    }
 
 
 	render({id}, {result}) {
@@ -43,10 +60,13 @@ export default class ImageView extends Component {
         else
         {
             return (
+                <div class= {style.imagePage}>
             <div class={style.imageView}>
                 <h1>Image {result.id}</h1>
                 {/* <p>This is the Image Viewing Tab.</p> */}
                 <img src={result.imageSource}> </img> 
+            </div>
+            <button onClick={fetchImage} class="myButton">Synthesize!</button>
             </div>
             );
         }
