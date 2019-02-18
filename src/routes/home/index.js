@@ -101,7 +101,7 @@ export default class Home extends Component {
 					{/* create 20 imageGridItems that each have the images and ids */}
 
 					{this.state.pics.map((element) => 
-						<ImageGridItem key={element.id} url={element.imageSource} id={element.id} />	
+						<ImageGridItem key={element.id} url={element.imageSource} id={element.id} /> 
 					)}
 
 			</div>
