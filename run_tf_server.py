@@ -8,7 +8,7 @@ import sys
 sys.path.insert(0, 'src')
 from ImportGraph import ImportGraph
 from utils import exists
-from utils import save_img, get_img, exists
+from utils import save_img, get_img, exists, url_to_image
 import transform, numpy as np, vgg, pdb, os
 
 # import the necessary packages
@@ -40,7 +40,8 @@ def load_models(device_t):
 def ffwd(data_in, checkpoint_dir):
     batch_shape = (1,) + (256, 256, 3)
     X = np.zeros(batch_shape, dtype=np.float32)
-    img = get_img(data_in)
+    # img = get_img(data_in)
+    img = url_to_image(data_in)
     img = scipy.misc.imresize(img, (256, 256, 3))
     X[0] = img
 
@@ -58,10 +59,11 @@ def predict():
             in_path = flask.request.form["image"]
             checkpoint_dir = flask.request.form["model"]
 
-            if not os.path.isdir(in_path):
+            '''if not os.path.isdir(in_path):
                 output = ffwd(in_path, checkpoint_dir)
             else:
-                print("Not a valid path to an image!")
+                print("Not a valid path to an image!")'''
+            output = ffwd(in_path, checkpoint_dir)
 
             # initialize the prediction to return to the client
             image = Image.fromarray(output[0], 'RGB')

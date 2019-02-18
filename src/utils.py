@@ -1,4 +1,7 @@
 import scipy.misc, numpy as np, os, sys
+from PIL import Image
+import requests
+from io import BytesIO
 
 def save_img(out_path, img):
     img = np.clip(img, 0, 255).astype(np.uint8)
@@ -12,8 +15,16 @@ def scale_img(style_path, style_scale):
     style_target = _get_img(style_path, img_size=new_shape)
     return style_target
 
+def url_to_image(url):
+  # download the image, convert it to a NumPy array
+  response = requests.get(url)
+  img = Image.open(BytesIO(response.content))
+
+  # return the image
+  return np.asarray(img)
+
 def get_img(src, img_size=False):
-   img = scipy.misc.imread(src, mode='RGB') # misc.imresize(, (256, 256, 3))
+   # img = scipy.misc.imread(src, mode='RGB') # misc.imresize(, (256, 256, 3))
    if not (len(img.shape) == 3 and img.shape[2] == 3):
        img = np.dstack((img,img,img))
    if img_size != False:

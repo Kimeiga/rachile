@@ -13,7 +13,7 @@ import base64
 # initialize the TF REST API endpoint URL along with the input
 # image path
 TF_REST_API_URL = "http://localhost:5000/predict"
-IMAGE_PATH = "stanford.jpg"
+IMAGE_PATH = "https://66.media.tumblr.com/e27a99628ae0ffa82a477f0dcd6faaf6/tumblr_nsxtxtSuUG1s3xbnmo1_1280.jpg"
 MODEL_PATH = "models/scream.ckpt"
 OUT_PATH = "out.jpg"
 
