@@ -39,7 +39,7 @@ export default class Profile extends Component {
 				<p>
 					<button onClick={this.increment}>Click Me</button>
 					{' '}
-					panda {count} times.
+					{count} times.
 				</p>
 			</div>
 		);

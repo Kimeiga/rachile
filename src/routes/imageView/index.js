@@ -40,7 +40,7 @@ export default class ImageView extends Component {
         const payload = {image : IMAGE_PATH, model: MODEL_PATH};
         axios.post(TF_REST_API_URL, payload)
           .then( (response) => {
-            console.log(response.data);
+            console.log(response);
             this.setState({ result : response.data });
 		})
           .catch(function (error) {
